@@ -1,7 +1,30 @@
 angular-point-example
 =======
 
-This is a stripped down version of an older angular-point application.
+This is an example application and development/build setup for an [angular-point](https://github.com/scatcher/angular-point.git)
+project.  The [angular-point](https://github.com/scatcher/angular-point.git) framework and 
+supporting modules are used by several large Single-Page Applications (SPA's) residing on a variety of enterprise 
+SharePoint (2007/2010/2013) instances where policy prohibits deployment of server-side code.  
+
+When ready for deployment, the minified files and resources (JS, HTML, CSS...) are placed in a folder(not document 
+library) within a SharePoint site and accessed via the application root (index.html). The user typically doesn't 
+realize that they're utilizing SharePoint because no SharePoint resources (CSS, JS, ASPX) are loaded with the page.  
+
+With the optional [Firebase](https://www.firebase.com/) change notification integration, data is always kept in sync 
+between all users within the application so there isn't a need to reload.  The view is updated dynamically as 
+other users make changes to the underlying data stored in SharePoint lists/libraries through a simple subscription
+system utilizing Firebase.
+
+A lot of proprietary content/modules were removed from this application but it should still serve to demonstrate some
+of the uses of [angular-point](https://github.com/scatcher/angular-point.git).  
+
+The offline development environment included with [angular-point](https://github.com/scatcher/angular-point.git) 
+attempts to utilize cached XML query responses from the lists you're planning to use but due to the nature of the 
+data I wasn't able to publish the accompanying XML files here along with the project.  As a fallback, the offline 
+environment attempts to generate mock XML responses (although not very well).  
+
+This project was pretty tightly coupled to [Firebase](https://www.firebase.com/) for real-time change notifications 
+so when you run it you'll see some errors if your own Firebase url isn't specified in common/config.ts file.
 
 Install the required tools
 ---------
@@ -92,7 +115,7 @@ Prepare code for SharePoint
 ---------
 Gulp will concat and minify our code.  The output of this process is put into the /dist folder.
 
-    gulp build
+    gulp deploy
 
 
 Update our dependencies
