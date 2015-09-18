@@ -1,0 +1,31 @@
+<div class="panel panel-metro-orange">
+	<div class="panel-heading">
+		<!-- WEEK RANGE TOGGLE CONTROL -->
+		<div class="panel-control">
+			<div class="btn-group">
+				<a href class="btn btn-link" type="button" ng-click="panel.setLastWeek()">
+					<i class="fa fa-arrow-left"></i>
+				</a>
+				<div class="txt-color-base-white" style="position:relative;float:left;margin-top:4px">{{ panel.dateRangeLabel }}</div>
+				<a href class="btn btn-link" type="button" ng-click="panel.setNextWeek()">
+					<i class="fa fa-arrow-right"></i>
+				</a>
+			</div>
+		</div>
+
+		<h3 class="panel-title"><i class="fa fa-bar-chart"></i> Workforce Availability</h3>
+	</div>
+
+	<!-- GOOGLE VISUALISATION -->
+	<div class="panel-body" ng-show="panel.ready">
+		<div google-chart chart="panel.workforceAvailabilityChart" class="google-bar" style="display: block; margin: 0 auto"></div>
+	</div>
+
+	<!-- LOADING -->
+	<div ng-if="!panel.ready" class="no-padding">
+		<div class="alert alert-info no-margin no-border">
+			<i class="fa fa-spinner fa-pulse"></i>&nbsp;Loading panel data...
+		</div>
+	</div>
+	
+</div>

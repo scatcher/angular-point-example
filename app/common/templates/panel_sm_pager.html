@@ -1,0 +1,11 @@
+<ul class="pager" ng-if="pages.length > 0">
+	<li ng-repeat="page in pages" ng-class="{'disabled': !page.active}" ng-show="page.type == 'prev' || page.type == 'next'"
+	ng-switch="page.type">
+		<a ng-switch-when="prev" ng-click="params.page(page.number)" href="">
+			<i class="fa fa-chevron-left"></i>
+		</a>
+		<a ng-switch-when="next" ng-click="params.page(page.number)" href="">
+			<i class="fa fa-chevron-right"></i>
+		</a>
+	</li>
+</ul>

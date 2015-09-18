@@ -1,0 +1,313 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()" aria-hidden="true">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>{{vm.userType + ' Leave Request'}}
+        <span ng-show="vm.leaveRecord.status === 'Pending Approval'" class="label label-primary">Pending</span>
+        <span ng-show="vm.leaveRecord.status === 'Approved'" class="label label-success">Approved</span>
+        <span ng-show="vm.leaveRecord.status === 'Rejected'" class="label label-danger">Rejected</span>
+    </h4>
+</div>
+<div class="modal-body">
+    <form role="form" class="form" name="modalform">
+
+        <div class="alert alert-info"
+             ng-if="vm.negotiatingWithServer"><i class="fa fa-spinner fa-spin"></i> processing request...</div>
+
+        <!--========================Hidden Admin Tools==================================-->
+        <div class="well well-sm" ng-if="vm.toggleAdminMode">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="btn-group">
+                        <button class="btn btn-warning {{ vm.approvalMode ? 'active' : '' }}"
+                                ng-click="vm.approvalMode = !vm.approvalMode">Approval Mode
+                        </button>
+                        <button class="btn btn-warning {{ vm.piiMode ? 'active' : '' }}"
+                                ng-click="vm.piiMode = !vm.piiMode">PII Mode
+                        </button>
+                        <button class="btn btn-warning {{ vm.userCanDelete ? 'active' : '' }}"
+                                ng-click="vm.userCanDelete = !vm.userCanDelete">Enable Delete
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-warning " ng-model="vm.displayMode"
+                                btn-radio="'View'">Display
+                        </button>
+                        <button type="button" class="btn btn-warning" ng-model="vm.displayMode"
+                                btn-radio="'New'">
+                            New
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--========================End Admin Tools==================================-->
+        <fieldset>
+            <div class="row">
+                <div class="col-xs-{{vm.userType === 'Government' ? 4 : 8}}">
+                    <div class="form-group">
+                        <label>Requester</label>
+
+                        <div ng-switch="vm.displayMode">
+                            <!-- NEW FORM -->
+                            <select ng-model="vm.leaveRecord.user"
+                                    ng-switch-when="New"
+                                    ng-options="{lookupId: person.id} as (person.id | userDisplayNameFilter:true) for person in vm.personnel | orderBy:'lastName' track by (person.lookupId || person.id)"
+                                    class="form-control"></select>
+                            <!-- DISPLAY FORM -->
+                            <!-- Fallback to lookupValue if user is no longer active -->
+                            <div class="form-control"
+                                 ng-switch-default>{{ (vm.leaveRecord.user.lookupId | userDisplayNameFilter:true) || vm.leaveRecord.user.lookupValue }} </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-4" ng-if="vm.userType === 'Government'">
+                    <div class="form-group" title="Typically your manager">
+                        <label>Requested Approver</label>
+
+                        <div ng-switch="vm.displayMode">
+                            <!-- NEW FORM -->
+                            <select ng-model="vm.leaveRecord.gatekeeper"
+                                    ng-switch-when="New"
+                                    ng-options="{lookupId: person.id} as (person.id | userDisplayNameFilter:true) for person in vm.personnel | orderBy:'lastName' track by (person.lookupId || person.id)"
+                                    class="form-control"></select>
+                            <!-- DISPLAY FORM -->
+                            <!-- Fallback to lookupValue if user is no longer active -->
+                            <div class="form-control"
+                                 ng-switch-default>{{ (vm.leaveRecord.gatekeeper.lookupId | userDisplayNameFilter:true) || vm.leaveRecord.gatekeeper.lookupValue}} </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group" ng-form="hours" ng-class="{'has-error':hours.$invalid}">
+                        <label>Hours <i class="fa fa-asterisk red" ng-show="vm.leaveRecord.hours <= 0 "></i></label>
+
+                        <div ng-switch="vm.displayMode">
+                            <!-- NEW FORM -->
+                            <input type="number"
+                                   ng-switch-when="New"
+                                   title="Identify the number of hours you're planning to take."
+                                   class="form-control"
+                                   ng-model="vm.leaveRecord.hours" required>
+                            <!-- DISPLAY FORM -->
+                            <div ng-switch-default class="form-control">{{ vm.leaveRecord.hours }} </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group">
+                        <label>All Day</label>
+
+                        <div ng-switch="vm.displayMode">
+                            <!-- NEW FORM -->
+                            <button class="btn btn-link"
+                                    ng-switch-when="New"
+                                    ng-click="vm.toggleAllDayMode()">
+                                <i class="fa {{ vm.leaveRecord.allDay ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x"></i>
+                            </button>
+                            <!-- DISPLAY FORM -->
+                            <i ng-switch-default
+                               class="fa {{ vm.leaveRecord.allDay ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Start Date</label>
+
+                        <div ng-switch="vm.displayMode">
+                            <!-- NEW FORM -->
+                            <div class="row" ng-switch-when="New">
+                                <div class="col-xs-{{ vm.leaveRecord.allDay ? 12 : 6 }}">
+                                    <input ui-date class="form-control" ng-model="vm.leaveRecord.from"
+                                           ng-change="vm.dateHelper()">
+                                </div>
+                                <div class="col-xs-6" ng-if="!vm.leaveRecord.allDay">
+                                    <input type="text" class="form-control" ng-model="vm.fromTime"
+                                           maxlength="5">
+                                </div>
+                            </div>
+
+                            <!-- DISPLAY FORM -->
+                            <div class="row" ng-switch-default>
+                                <div class="col-xs-{{ vm.leaveRecord.allDay ? 12 : 6 }}">
+                                    <div class="form-control">{{ vm.leaveRecord.from | date:'MM/dd/yyyy' }}</div>
+                                </div>
+                                <div class="col-xs-6" ng-if="!vm.leaveRecord.allDay">
+                                    <div class="form-control">{{ vm.leaveRecord.from | date:'hh:mm a' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>End Date</label>
+
+                        <div ng-switch="vm.displayMode">
+
+                            <!-- NEW FORM -->
+                            <div class="row" ng-switch-when="New">
+                                <div class="col-xs-{{ vm.leaveRecord.allDay ? 12 : 6 }}">
+                                    <input ui-date class="form-control" ng-model="vm.leaveRecord.to"
+                                           ng-change="vm.changeEnd()">
+                                </div>
+                                <div class="col-xs-6" ng-if="!vm.leaveRecord.allDay">
+                                    <input type="text" class="form-control" ng-model="vm.toTime"
+                                           maxlength="5">
+                                </div>
+                            </div>
+
+                            <!-- DISPLAY FORM -->
+                            <div class="row" ng-switch-default>
+                                <div class="col-xs-{{ vm.leaveRecord.allDay ? 12 : 6 }}">
+                                    <div class="form-control">{{ vm.leaveRecord.to | date:'MM/dd/yyyy' }}</div>
+                                </div>
+                                <div class="col-xs-6" ng-if="!vm.leaveRecord.allDay">
+                                    <div class="form-control">{{ vm.leaveRecord.to | date:'hh:mm a' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.displayMode  === 'New' || vm.piiMode">
+
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Leave Type</label>
+
+                        <div ng-switch="vm.displayMode">
+
+                            <!-- NEW FORM -->
+                            <select ng-model="vm.leaveRecord.type"
+                                    ng-switch-when="New"
+                                    ng-options="{lookupId: leaveType.id, lookupValue: leaveType.title} as leaveType.title for leaveType in vm.leaveTypes | orderBy:'title' track by leaveType.lookupId || leaveType.id"
+                                    class="form-control"></select>
+
+                            <!-- DISPLAY FORM -->
+                            <div ng-switch-default class="form-control">{{ vm.leaveRecord.type.lookupValue }}</div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label>Backup/POC</label>
+
+                            <div ng-switch="vm.displayMode" title="The SME that should be contacted in your absence.">
+
+                                <!-- NEW FORM -->
+                                <select data-ng-model="vm.leaveRecord.backup"
+                                        ng-switch-when="New"
+                                        class="form-control"
+                                        ng-options="(person.lookupId | userDisplayNameFilter:true) for person in vm.userLookupOptionsById track by person.lookupId"></select>
+
+                                <!-- DISPLAY FORM -->
+                                <!-- Fallback to lookupValue if user is no longer active -->
+                                <div ng-switch-default class="form-control">{{ (vm.leaveRecord.backup.lookupId | userDisplayNameFilter:true) || vm.leaveRecord.backup.lookupValue }}</div>
+
+                            </div>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="form-group">
+                        <label>CC</label>
+
+                        <div ng-switch="vm.displayMode"  title="Anyone set here will receive an email notification for situational awareness.">
+
+                            <!-- NEW FORM -->
+                            <div ng-switch-when="New">
+                                <ui-select ng-model="vm.leaveRecord.ccSIDs" multiple>
+                                    <ui-select-match>{{$item.lookupId | userDisplayNameFilter}}</ui-select-match>
+                                    <ui-select-choices
+                                        repeat="person in vm.userLookupOptionsBySid | filter: $select.search | orderBy:'lookupValue' track by person.lookupId">
+                                        <div ng-bind-html="person.lookupId | userDisplayNameFilter | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+
+                            <!-- DISPLAY FORM -->
+                            <div ng-switch-default class="form-control">
+                                <!-- Fallback to lookupValue if user is no longer active -->
+                                <span ng-repeat="ccUser in vm.leaveRecord.ccSIDs">{{ (ccUser.lookupId | userDisplayNameFilter) || ccUser.lookupValue }} {{ !$last ? '; ' : ''}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Only Show PII fields when user has permissions -->
+            <div class="row" ng-if="vm.piiMode">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Remarks</label>
+
+                        <div ng-switch="vm.displayMode">
+
+                            <!-- NEW FORM -->
+                            <div ng-switch-when="New">
+                                <!-- NEW FORM -->
+                                <textarea class="form-control" ng-model="vm.leaveRecord.remarks" msd-elastic></textarea>
+                                <span class="help-block">Do not enter any PII information here. Anything personal should be discussed with your manager.</span>
+                            </div>
+
+                            <!-- DISPLAY FORM -->
+                            <div ng-switch-default class="form-control">{{ vm.leaveRecord.remarks }}</div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="vm.piiMode && vm.displayMode !== 'New'">
+                <hr/>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Approval Feedback</label>
+                         <textarea class="form-control" ng-model="vm.leaveRecord.approverRemarks"
+                                   msd-elastic ng-disabled="!vm.approvalMode"></textarea>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <div class="row" ng-if="vm.leaveRecord.status === 'Approved'">
+        <div class="col-xs-12">
+            <span class="pull-left help-block">Approval Date: {{ vm.leaveRecord.approvalDate | date:'short'}}</span>
+            <span class="pull-right help-block">Approved By: {{ vm.approversDisplayName }}</span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <fieldset ng-disabled="vm.negotiatingWithServer">
+        <button class="btn btn-danger pull-left" ng-click="vm.deleteListItem()" title="Delete this request"
+                ng-if="vm.userCanDelete"><i class="fa fa-trash-o"></i>
+        </button>
+        <button class="btn btn-grey pull-left" ng-click="vm.toggleAdminMode = !vm.toggleAdminMode"
+                ng-if="vm.fullControl" title="Toggle Admin Tools"><i class="fa fa-unlock-alt"></i></button>
+        <button class="btn btn-success" ng-click="vm.approve()" title="Approve the request"
+                ng-if="vm.approvalMode"><i class="fa fa-thumbs-o-up"></i> Approve
+        </button>
+        <button class="btn btn-danger" ng-click="vm.reject()" title="Reject the request"
+                ng-if="vm.approvalMode"><i
+            class="fa fa-thumbs-o-down"></i> Reject
+        </button>
+        <button class="btn btn-primary" ng-click="vm.save()"
+                ng-if="vm.displayMode === 'New'">Save
+        </button>
+        <button class="btn btn-default" ng-click="vm.cancel()" title="Close this window and cancel any changes">
+            Cancel
+        </button>
+    </fieldset>
+</div>

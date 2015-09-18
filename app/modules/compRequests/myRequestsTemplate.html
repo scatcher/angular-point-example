@@ -1,0 +1,8 @@
+<table ng-table="panel.myRequestsTable" template-pagination="common/templates/panel_sm_pager.html" class="table table-striped">
+	<tr ng-repeat="request in $data">
+		<td data-title="'Dates'" sortable="'endDate'">
+			<a href="" class="pointer" ng-click="panel.openModal(request)"> {{ request.startDate | date:'shortDate' }} - {{request.endDate | date:'shortDate' }}</a>
+		</td>
+		<td data-title="'Status'" sortable="'approvalStatus'">{{ request.approvalStatus }}</td>
+	</tr>
+</table>

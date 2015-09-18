@@ -1,0 +1,16 @@
+<div class="panel panel-metro-purple">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-mobile fa-lg"></i> Employee Directory</h3>
+	</div>
+	<div ui-grid="panel.personnelGrid"
+		ui-grid-resize-columns
+		ui-grid-auto-resize></div>
+		
+
+	<!-- Loading -->
+	<div ng-if="!panel.ready" class="no-padding">
+		<div class="alert alert-info no-margin no-border">
+			<i class="fa fa-spinner fa-pulse"></i>&nbsp;Loading panel data...
+		</div>
+	</div>
+</div>

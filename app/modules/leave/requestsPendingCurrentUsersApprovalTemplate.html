@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Requester</th>
+        <th>Date(s)</th>
+        <th>Type</th>
+        <th></th>
+        <th>Approve</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="request in panel.requestsPendingCurrentUsersApproval | limitTo:5 track by request.id" class="nga-default nga-fade">
+        <td>
+            <a href="" class="pointer" ng-click="panel.openModal(request)"
+               title="Click to view">{{ request.user.lookupValue }}</a>
+        </td>
+        <td>{{ request.date }}</td>
+        <td>{{ request.type.lookupValue }}</td>
+        <td>
+            <i ng-if="request.remarks.length > 0" tooltip="{{ request.remarks }}" class="fa fa-info fa-lg txt-color-metroBlue"></i>
+        </td>
+        <td>
+            <a class="btn btn-{{panel.color}} btn-sm pull-right"
+               title="Use this button to use quickly approve requests."
+               ng-disabled="request.negotiatingWithServer"
+               ng-click="panel.quickApprove(request)"><i class="fa fa-thumbs-o-up fa-lg"></i> </a>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,31 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Dates</th>
+            <th>Name</th>
+            <th>Comp</th>
+            <th>Credit</th>
+            <th>Holiday</th>
+            <th>Overtime</th>
+            <th></th>
+            <th>Approve</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="request in panel.requestsPendingCurrentUsersApproval | limitTo:5 track by request.id" class="nga-default nga-fade">
+        <td>
+            <a href="" class="pointer" ng-click="panel.openModal(request)" title="Click to view">{{ request.startDate | date:'shortDate' }} - {{request.endDate | date:'shortDate' }}</a>
+        </td>
+        <td>{{ request.getRequestersFullName() }}</td>
+        <td>{{request.compHours}}</td>
+        <td>{{request.creditHours}}</td>
+        <td>{{request.holidayHours}}</td>
+        <td>{{request.overtimeHours}}</td>
+        <td>
+            <i ng-if="request.justification.length > 0" tooltip="{{ request.justification }}" class="fa fa-info fa-lg txt-color-metroBlue"></i>
+        </td>
+        <td>
+            <a class="btn btn-{{panel.color}} btn-sm pull-right" title="Use this button to use quickly approve requests." ng-disabled="request.negotiatingWithServer"
+            ng-click="panel.quickApprove(request)"><i class="fa fa-thumbs-o-up fa-lg"></i> </a>
+        </td>
+    </tr>
+</table>

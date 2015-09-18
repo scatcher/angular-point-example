@@ -1,0 +1,35 @@
+@import "variables";
+@import "../../../bower_components/bootstrap/less/theme.less";
+
+
+@result-met: @label-success-bg;
+@result-nm: @label-danger-bg;
+@result-mwe: @label-warning-bg;
+@result-wne: @label-default-bg;
+@result-nye: #DAA520;
+@result-tbd: @label-primary-bg;
+//@result-met: #7CFC00;
+//@result-nm: #FF0000;
+//@result-mwe: #FFFF00;
+//@result-wne: #00FFFF;
+//@result-nye: #DAA520;
+//@result-tbd: #DDA0DD;
+
+.label-met {
+    .label-variant(@result-met);
+}
+.label-nm {
+    .label-variant(@result-nm);
+}
+.label-mwe {
+    .label-variant(@result-mwe);
+}
+.label-wne {
+    .label-variant(@result-wne);
+}
+.label-nye {
+    .label-variant(@result-nye);
+}
+.label-tbd {
+    .label-variant(@result-tbd);
+}

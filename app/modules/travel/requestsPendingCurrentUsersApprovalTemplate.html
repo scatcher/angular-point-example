@@ -1,0 +1,27 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Dates</th>
+        <th></th>
+        <th>Approve</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="request in panel.requestsPendingCurrentUsersApproval | limitTo:5 track by request.id">
+        <td>
+            <a href=""
+               ng-click="panel.openModal(request)"
+               title="Click to view">{{ request.requestedFor.lookupId | userDisplayNameFilter }}</a>
+        </td>
+        <td>{{ request.travelStartDate | date:'shortDate' }} - {{ request.travelEndDate | date:'shortDate' }}</td>
+        <td>
+            <i ng-if="request.purpose.length > 0" tooltip="{{ request.purpose }}" class="fa fa-info fa-lg txt-color-metroBlue"></i>
+        </td>
+        <td>
+            <a class="btn btn-{{panel.color}} btn-sm pull-right"
+               title="Use this button to use quickly approve requests."
+               ng-disabled="request.negotiatingWithServer"
+               ng-click="panel.quickApprove(request)"><i class="fa fa-thumbs-o-up fa-lg"></i> </a>
+        </td>
+    </tr>
+</table>

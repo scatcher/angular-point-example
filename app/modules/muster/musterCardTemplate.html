@@ -1,0 +1,28 @@
+<div class="{{ card.musterSummary.accountedFor ? 'muster-card' : 'muster-card muster-card-absent' }}"
+    ng-click="card.musterSummary.openMusterModal()"
+    title="{{ card.musterSummary.muster.notes }}">
+    <div class="muster-icon {{ card.musterSummary.accountedFor ? 'txt-color-base-green-dark' : 'txt-color-base-red' }}">
+        <a href><i tooltip-html="card.accountedForTooltipText"
+            tooltip-placement="right"
+            tooltip-append-to-body="true"
+            class="fa fa-2x {{card.musterSummary.musterIconClass }}"></i></a><br>
+        <a ng-repeat="icon in card.musterSummary.icons"
+           tooltip-placement="right"
+           tooltip-append-to-body="true"
+           tooltip-html="icon.iconText"
+           ng-click="icon.clickEvent($event);">
+            <i class="fa {{ icon.iconClass }}" ng-class="{'fa-2x': card.musterSummary.icons.length < 2}"></i>
+        </a>
+    </div>
+    <div class="muster-card-text">
+        <i ng-if="card.musterSummary.muster.mood"
+           class="twa twa-2x twa-{{ card.musterSummary.muster.mood }} pull-right"
+           tooltip-append-to-body="true"
+           tooltip-html="card.musterSummary.moodTooltip"></i>
+        <strong>{{ card.musterSummary.person.lastName }}, {{ card.musterSummary.person.firstName.substring(0, 1) }}.</strong><br/>
+        <span ng-bind-html="card.musterSummary.musterStatusText"></span>
+    </div>
+    <div ng-if="card.musterSummary.person.employeeType !== 'Government'" class="contractor-green-corner" >
+        <img src="images/corner.gif" alt="Contractor" tooltip="Contractor">
+    </div>
+</div>

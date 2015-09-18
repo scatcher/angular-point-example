@@ -1,0 +1,44 @@
+<tr class="contractor-row">
+    <!-- STATUS ICON -->
+    <td style="width:30px;" class="text-center">
+        <i tooltip-html="row.musterSummary.accountedForTooltipText"
+            tooltip-placement="right"
+            class="fa fa-lg {{row.musterSummary.musterIconClass }}"></i>
+    </td>
+    <!-- USER -->
+    <td>
+        <a class="pointer" href title="Click to open/edit this muster record."
+            ng-click="row.musterSummary.openMusterModal()">{{ row.musterSummary.userName }}</a>
+    </td>
+    <!-- MOOD -->
+    <td style="width:30px">
+        <i ng-if="row.musterSummary.muster.mood"
+            class="twa twa-lg twa-{{ row.musterSummary.muster.mood }}"
+            tooltip-append-to-body="true"
+            tooltip-html="row.musterSummary.moodTooltip"></i>        
+    </td>
+    <!-- LOCATION -->
+    <td class="no-wrap">
+        <span ng-bind-html="row.musterSummary.musterStatusText"></span>
+    </td>
+    <!-- REQUEST ICONS -->
+    <td style="width:100px">
+        <a ng-repeat="icon in row.musterSummary.icons"
+            class="pointer"
+            tooltip-placement="right"
+            tooltip-html="icon.iconText"
+            tooltip-append-to-body="true"
+            ng-click="icon.clickEvent($event);"><i class="fa fa-lg {{ icon.iconClass }}"></i>
+        </a>
+    </td>
+    <!-- NOTES -->
+    <td style="width: 60px">
+        <i ng-if="row.musterSummary.muster.notes"
+            class="fa fa-info-circle fa-lg"
+            tooltip-append-to-body="true"
+            tooltip="{{ row.musterSummary.muster.notes }}"></i>
+        <span ng-if="row.musterSummary.person.employeeType !== 'Government'"
+            class="label bg-color-base-green-dark"
+            tooltip="Contractor">C</span>
+    </td>
+</tr>

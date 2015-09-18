@@ -1,0 +1,33 @@
+<div class="panel panel-material-orange">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-credit-card"></i> Charge Guidance</h3>
+	</div>
+	<table class="table" ng-if="panel.ready">
+		<thead>
+			<tr>
+				<th>File</th>
+				<th>Modified</th>
+				<th>Guidance Start</th>
+				<th>Guidance End</th>
+				<th class="hidden-sm">FY</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="document in panel.chargeGuidance track by document.id">
+				<td>
+					<a href="/{{document.link}}" download>{{document.title}}</a>
+				</td>
+				<td>{{document.modified | date:'short'}}</td>
+				<td>{{document.startDate | date:'shortDate'}}</td>
+				<td>{{document.endDate | date:'shortDate'}}</td>
+				<td class="hidden-sm">{{document.fy}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- Loading -->
+	<div ng-if="!panel.ready" class="no-padding">
+		<div class="alert alert-info no-margin no-border">
+			<i class="fa fa-spinner fa-pulse"></i>&nbsp;Loading panel data...
+		</div>
+	</div>
+</div>

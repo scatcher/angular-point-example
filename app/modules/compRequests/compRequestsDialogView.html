@@ -1,0 +1,248 @@
+<form role="form" class="form">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="vm.cancel()" aria-hidden="true">&times;</button>
+        <h4>Comp Request <span class="{{ vm.getLabelClass() }}">{{ vm.compRequest.approvalStatus }}</span></h4>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-warning" ng-show="vm.dateExceedsBoundary">
+            <p class="red">You may not enter a date range that extends across two months. Your end date has been limited
+                to the last day of the start date's month.</p>
+        </div>
+        <!--========================Hidden Admin Tools==================================-->
+        <div class="well well-sm" ng-if="vm.toggleAdminMode">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="btn-group">
+                        <button class="btn btn-purple {{ vm.enableApproval ? 'active' : '' }}"
+                                ng-click="vm.enableApproval = !vm.enableApproval">Approval Mode
+                        </button>
+                        <button class="btn btn-purple {{ vm.userCanDelete ? 'active' : '' }}"
+                                ng-click="vm.userCanDelete = !vm.userCanDelete">Enable Delete
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-purple " ng-model="vm.displayMode"
+                                btn-radio="'View'">Display
+                        </button>
+                        <button type="button" class="btn btn-purple" ng-model="vm.displayMode"
+                                btn-radio="'New'">New
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--========================End Admin Tools==================================-->
+        <div class="row">
+            <div class="col-sm-12">
+
+
+                <!--================NEW MODE=====================-->
+                <fieldset ng-if="vm.displayMode === 'New'">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-6">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input ui-date class="form-control"
+                                       ng-model="vm.compRequest.startDate"
+                                       ng-change="vm.dateHelper()"
+                                       name="startDateField">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-6">
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <input ui-date class="form-control" ng-model="vm.compRequest.endDate"
+                                       name="endDateField" ng-change="vm.changeEnd()">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Requester</label>
+                                    <select data-ng-model="vm.compRequest.requestedFor"
+                                            class="form-control"
+                                            ng-options="(person.lookupId | userDisplayNameFilter) for person in vm.userLookupOptionsBySid | orderBy:'lookupValue' track by person.lookupId"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Credit</label>
+                                <input type="number" class="form-control" ng-model="vm.compRequest.creditHours"
+                                       title="The number of credit hours being requested.">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Comp</label>
+                                <input type="number" class="form-control" ng-model="vm.compRequest.compHours"
+                                       title="The number of comp-time hours being requested.">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Holiday</label>
+                                <input type="number" class="form-control" ng-model="vm.compRequest.holidayHours"
+                                       title="The number of holiday work hours being requested.">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Overtime</label>
+                                <input type="number" class="form-control" ng-model="vm.compRequest.overtimeHours"
+                                       title="The number of overtime hours being requested.">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Approver</label>
+                                <select data-ng-model="vm.compRequest.approver"
+                                        class="form-control"
+                                        ng-options="(person.lookupId | userDisplayNameFilter) for person in vm.userLookupOptionsBySid | orderBy:'lookupValue' track by person.lookupId"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Remarks/Justification</label>
+                                <textarea class="form-control" ng-model="vm.compRequest.justification"
+                                          rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <!--================DISPLAY MODE=====================-->
+                <fieldset ng-if="vm.displayMode !== 'New'">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-6">
+                            <div class="form-group">
+                                <label>Start Date</label>
+
+                                <div class="form-control">{{ vm.compRequest.startDate | date:'MM/dd/yyyy' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-xs-6">
+                            <div class="form-group">
+                                <label>End Date</label>
+
+                                <div class="form-control">{{ vm.compRequest.endDate | date:'MM/dd/yyyy' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Requester</label>
+
+                                    <div class="form-control">{{ vm.compRequest.requestedFor.lookupValue }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Credit</label>
+
+                                <div class="form-control">{{ vm.compRequest.creditHours || 0 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Comp</label>
+
+                                <div class="form-control">{{ vm.compRequest.compHours || 0 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Holiday</label>
+
+                                <div class="form-control">{{ vm.compRequest.holidayHours || 0 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 col-xs-6">
+                            <div class="form-group">
+                                <label>Overtime</label>
+
+                                <div class="form-control">{{ vm.compRequest.overtimeHours || 0 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Approver</label>
+
+                                <div class="form-control">{{ vm.compRequest.approver.lookupValue }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="vm.compRequest.justification.length > 0">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Remarks/Justification</label>
+
+                                <div class="form-control">{{ vm.compRequest.justification }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+        </div>
+
+
+        <div class="row" ng-if="vm.displayMode === 'View'">
+            <div class="col-sm-12">
+                <fieldset>
+                    <div class="form-group"
+                         ng-if="vm.compRequest.approvalStatus === 'Approved' && vm.compRequest.approvalComments.length > 0">
+                        <label>Approval Comments</label>
+
+                        <div class="well well-sm"
+                             ng-if="vm.displayMode === 'View'">{{ vm.compRequest.approvalComments }}
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="vm.enableApproval">
+                        <label>Approval Comments</label>
+                        <textarea class="form-control"
+                                  ng-model="vm.compRequest.approvalComments" rows="2"></textarea>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="row" ng-if="vm.compRequest.approvalStatus === 'Approved'">
+            <div class="col-sm-12">
+                <div>
+                    <span
+                        class="pull-left help-block">Approval Date: {{ vm.compRequest.approvalDate | date:'short'}}</span>
+                    <span class="pull-right help-block">Approved By: {{vm.compRequest.approver.lookupValue }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-left" ng-if="vm.compRequest.id">
+            <button class="btn btn-danger" ng-click="vm.deleteListItem()" ng-show="vm.userCanDelete"
+                    title="Delete this comp request">
+                <i class="fa fa-trash-o"></i>
+            </button>
+        </div>
+        <button class="btn btn-grey pull-left" ng-click="vm.toggleAdminMode = !vm.toggleAdminMode"
+                ng-if="vm.fullControl" title="Toggle Admin Tools"><i class="fa fa-unlock-alt"></i></button>
+        <button class="btn btn-success" ng-click="vm.approve()" ng-if="vm.enableApproval"
+                ng-disabled="vm.negotiatingWithServer">Approve
+        </button>
+        <button class="btn btn-danger" ng-click="vm.reject()" ng-if="vm.enableApproval"
+                ng-disabled="vm.negotiatingWithServer">Reject
+        </button>
+        <!--Update server if form is in new mode-->
+        <button class="btn btn-primary" ng-click="vm.saveListItem()" ng-disabled="vm.formInvalid() || vm.negotiatingWithServer"
+                ng-if="vm.displayMode === 'New'"> Save
+        </button>
+        <button class="btn btn-default" ng-click="vm.cancel()">{{ vm.displayMode === 'New' ? 'Cancel' : 'Close' }}</button>
+    </div>
+</form>

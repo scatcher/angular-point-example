@@ -1,0 +1,178 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()" aria-hidden="true">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4>Angular-Point-Example ({{ vm.person.firstName + ' ' + vm.person.lastName }})</h4>
+
+    <p class="help-block">Average Check-In Time: {{ vm.averageCheckInTime | date:'shortTime' }}</p>
+</div>
+
+<div class="modal-body">
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="{{ vm.selectedTab === 'today' ? 'active' : '' }}">
+                <a href ng-click="vm.selectedTab = 'today'">Today</a>
+            </li>
+            <li class="{{ vm.selectedTab === 'history' ? 'active' : '' }}">
+                <a href ng-click="vm.selectedTab = 'history'">History</a>
+            </li>
+        </ul>
+        <div ng-switch="vm.selectedTab">
+            <div ng-switch-when="today">
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form class="form form-horizontal" name="musterForm">
+                            <div class="form-group" ng-class="{'has-error': musterForm.$dirty && musterForm.$invalid}">
+                                <label class="col-sm-2 control-label">Location&nbsp;*</label>
+
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="{{ vm.person.firstName }} is..."
+                                               class="form-control" ng-model="vm.muster.location" required/>
+
+                                        <div class="input-group-btn" dropdown>
+                                            <button type="button" dropdown-toggle class="btn btn-default dropdown-toggle">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li ng-repeat="location in vm.commonCheckinLocations | orderBy:'toString()'">
+                                                    <a ng-click="vm.muster.location = location; status.isopen = false;">
+                                                        {{location }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="help-block">You can either manually type in a location or
+                                        choose from the dropdown to the right.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Notes</label>
+
+                                <div class="col-sm-10">
+                                    <textarea data-ng-model="vm.muster.notes" cols="2" class="form-control"></textarea>
+
+                                    <p class="help-block">Enter any additional information regarding your status and/or
+                                        plans for the day here. All fields in this record will remain editable so feel
+                                        free to update information as needed throughout the day.</p>
+                                </div>
+                            </div>
+
+                            <hr class="hr-sm"/>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Mood</label>
+
+                                <div class="col-sm-2">
+
+                                    <span class="btn-group ui-iconpicker" dropdown>
+                                        <button type="button" dropdown-toggle class="btn btn-default btn-sm dropdown-toggle">
+                                            <i class="twa twa-{{ vm.muster.mood }} twa-4x"></i>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li ng-repeat="mood in vm.availableMoods">
+                                                <button class="btn btn-default" type="button" ng-click="vm.setMood(mood)">
+                                                    <i class="twa twa-{{ mood }} twa-2x"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                    <!-- Emoji's are credited to the Twitter twemoji open source project.  See
+                                    http://twitter.github.io/twemoji/ for more info -->
+                                    <input type="text" ng-model="vm.muster.mood" class="hidden">
+
+                                </div>
+                                <div class="col-sm-8">
+
+                                    <p class="help-block">
+                                        Optionally set a mood/idea by selecting an
+                                        <abbr
+                                            title="Emoji is the Japanese term for picture characters and as of October 2010 the core Unicode Standard recognizes 722 distinct characters that we increasingly see in mobile and desktop environments.">emoji</abbr>.
+                                        <a href="" title="Ugh...decision fatigue...surprise me!" class="pointer"
+                                           ng-click="vm.randomEmoji()">Mix it up</a> and have
+                                        <span style="cursor:copy"
+                                              ng-click="vm.displayAdvancedMoodControl = !vm.displayAdvancedMoodControl">fun!</span>
+                                        Think of this as an opportunity to express a little personality.
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="form-group nga-default nga-fade has-success" ng-if="vm.displayAdvancedMoodControl">
+                                <label class="col-sm-2 control-label">Ninja Mode</label>
+
+                                <div class="col-sm-10">
+                                    <ui-select ng-model="vm.muster.mood">
+                                        <ui-select-match placeholder="Lookup emoji by name...">{{$select.selected}}
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                            repeat="emoji in vm.twemojiAwesomeIcons | filter: $select.search track by $index">
+                                            <div ng-bind-html="emoji | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p class="help-block">Looks like you've unlocked the ninja emoji mode...probably
+                                        a fluke...most likely won't find any of the other hidden modes in the
+                                        application <i class="twa twa-smirk" style="cursor: crosshair;"
+                                                       tooltip="Hey hey hey...I didn't mean it!"></i>  You can find a cheat sheet on emoji's
+                                        <a href="http://www.emoji-cheat-sheet.com/" target="_blank">here</a>. </p>
+                                    <strong class="help-block">Lets just keep this feature between us...</strong>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div ng-if="vm.mode ==='edit'" class="row">
+                    <div ng-show="vm.versionHistory" class="col-sm-12">
+                        <hr class="hr-sm">
+                        <label>Today's Log</label>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Version</th>
+                                <th>Time</th>
+                                <th>Location</th>
+                                <th>Editor</th>
+                                <th>Mood</th>
+                                <th>Notes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="version in vm.versionHistory">
+                                <td>{{ version.version }}</td>
+                                <td>{{ version.modified | date:'shortTime' }}</td>
+                                <td>{{ version.location }}</td>
+                                <td>{{ version.editorName }}</td>
+                                <td><i class="twa twa-{{ version.mood }}"></i></td>
+                                <td><p>{{ version.notes }}</p></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-switch-when="history">
+                <div google-chart chart="vm.chartObject" style="{{ vm.chartObject.cssStyle }}"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="pull-left">
+        <button class="btn btn-danger"
+                ng-click="vm.deleteRecord()"
+                ng-show="vm.muster.id"
+                title="Delete this muster record">
+            <i class="fa fa-trash-o"></i>
+        </button>
+    </div>
+    <button class="btn btn-primary" ng-click="vm.save()">OK</button>
+    <button class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+</div>

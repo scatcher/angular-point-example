@@ -1,0 +1,9 @@
+<table ng-table="panel.myRequestsTable" template-pagination="common/templates/panel_sm_pager.html" class="table table-striped">
+    <tr ng-repeat="request in $data">
+        <td data-title="'Date'">
+            <a class="pointer" ng-click="panel.openModal(request)" href="" title="Click to view">{{ request.date }}</a>
+        </td>
+        <td data-title="'Type'" header-class="'hidden-md hidden-sm'" class="hidden-md hidden-sm">{{request.type.lookupValue}}</td>
+        <td data-title="'Status'">{{request.status}}</td>
+    </tr>
+</table>

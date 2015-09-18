@@ -1,0 +1,9 @@
+<table ng-table="vm.pendingRequestsTable" template-pagination="common/templates/panel_sm_pager.html" class="table table-striped">
+    <tr ng-repeat="request in $data">
+        <td data-title="'Name'" sortable="user.lookupValue">
+            <a href="" class="pointer" ng-click="vm.openModal(request)"
+               title="Click to view">{{ request.user.lookupValue }}</a>
+        </td>
+        <td data-title="'Date'">{{ request.date }}</td>
+    </tr>
+</table>

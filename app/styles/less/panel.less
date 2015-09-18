@@ -1,0 +1,118 @@
+@import "variables";
+@import "color-pallete.less";
+@import "../../../bower_components/bootstrap/less/mixins.less";
+
+
+// Mixin for generating new styles
+.panel-heading-styles(@color) {
+    #gradient > .vertical(@start-color: @color; @end-color: darken(@color, 5%));
+}
+
+// ............................................................
+// .Loop through each color variable in the provided array and create applicable panel css for the color
+.panel-constructor(@colorArray, @i: 1) when (@i <= length(@colorArray)) {
+    //Variable name
+    @name: e(extract(@colorArray, @i));
+
+    @heading-bg: @@name;
+    @border: darken(spin(@heading-bg, -10), 5%);
+
+    .panel-@{name} {
+        .panel-variant(@border; @white; @heading-bg; @border);
+    }
+
+    // Apply the mixin to the panel headings only
+    .panel-@{name} > .panel-heading   {
+        .panel-heading-styles(@heading-bg);
+
+        .panel-control{
+            /* Highlight background of button on hover to match panel header */
+            .btn-link{
+                &.active{
+                    background-color: @white;
+                    color:@heading-bg;
+                }
+                &:hover,
+                &:focus {
+                    background-color: rgba(255,255,255, .23);
+//                    background-color: lighten(spin(@heading-bg, -10), 5%);
+                }
+            }
+        }
+    }
+
+
+    //Loop
+    .panel-constructor(@colorArray, (@i + 1));
+}
+
+/* Create addition color options for Bootstrap Panels */
+.panel-constructor(@metro-palette);
+.panel-constructor(@material-palette);
+.panel-constructor(@base-palette);
+
+
+.panel {
+    .panel-heading{
+        .panel-control{
+            float:right;
+            padding-left:25px;
+            margin-top:-6px;
+            margin-right:0;
+        }
+
+        .btn-link{
+            color: darken(spin(@white, -10), 5%);
+            margin-top:-3px;
+//            font-size:110% !important;
+            &:hover,
+            &:focus {
+                color: @white;
+            }
+        }
+
+    }
+}
+
+/*Panel tabs*/
+.panel-tabs {
+    position: relative;
+    bottom: 30px;
+    clear:both;
+    border-bottom: 1px solid transparent;
+    > li {
+        float: left;
+        margin-bottom: -1px;
+        > a {
+            margin-right: 2px;
+            margin-top: 4px;
+            line-height: .85;
+            border: 1px solid transparent;
+            border-radius: 4px 4px 0 0;
+            color: #ffffff;
+        }
+        > a:hover {
+            border-color: transparent;
+            color: #ffffff;
+            background-color: transparent;
+        }
+    }
+}
+
+.panel-tabs > li.active > a,
+.panel-tabs > li.active > a:hover,
+.panel-tabs > li.active > a:focus {
+    color: #fff;
+    cursor: default;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: rgba(255,255,255, .23);
+    border-bottom-color: transparent;
+}
+
+//.panel-tabs > li > a {
+//    padding-bottom: 0px;
+//}
+
+

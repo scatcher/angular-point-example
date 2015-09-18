@@ -1,0 +1,59 @@
+<div class="page-content">
+    <p class="smaller well well-sm">This app is an initial attempt to modernize the old spreadsheet comp request
+        process. After you submit a new request, both
+        you and the selected approver should receive a confirmation email. You will also receive an email notification
+        once an approval
+        decision has been made. In order to comply with reporting requirements, please don't submit a request that
+        extends across
+        two months. Submitting multiple requests is an acceptable alternative.</p>
+        <div class="row">
+            <div class="col-sm-12">
+                <requests-pending-current-users-approval title="'Comp Requests'" color="'metro-red'"></requests-pending-current-users-approval>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-6" ng-repeat="panel in vm.panels">
+            <div class="panel {{panel.className}}">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa {{panel.icon}}"></i>&nbsp;{{panel.title}}
+                        <div class="panel-control">
+                            <a href="" ng-click="vm.openModalForm()" class="btn btn-link"
+                               tooltip="Create&nbsp;a&nbsp;new&nbsp;request" tooltip-placement="bottom">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </h3>
+                </div>
+                <!-- Loading Message -->
+                <div ng-hide="panel.ready" class="no-padding">
+                    <div class="alert alert-info no-margin no-border">
+                        <i class="fa fa-spinner fa-spin"></i>loading...
+                    </div>
+                </div>
+                <!-- No Items to Display -->
+                <div ng-show="panel.ready && panel.requestCount === 0" class="no-padding">
+                    <div class="alert alert-success no-margin no-border">
+                        <i class="fa fa-check-circle fa-green"></i>&nbsp;{{panel.emptyMessage}}
+                    </div>
+                </div>
+                <div ng-if="panel.requestCount > 0" class="nga-default nga-fade">
+                    <table ng-table="panel.table" template-pagination="common/templates/panel_sm_pager.html" class="table">
+                        <tr ng-repeat="request in $data">
+                            <td data-title="'Dates'" sortable="'endDate'">
+                                <a href="" class="pointer" ng-click="vm.openModalForm(request)"> {{ request.startDate | date:'shortDate'
+                                    }} - {{request.endDate | date:'shortDate' }}</a>
+                            </td>
+                            <td data-title="'Name'" sortable="'requestedFor.lookupValue'">{{ request.getRequestersFullName() }}</td>
+                            <td data-title="'Group'" sortable="'organizationalUnit.lookupValue'">{{
+                                request.organizationalUnit.lookupValue }}
+                            </td>
+                            <td data-title="'Status'" sortable="'approvalStatus'">{{ request.approvalStatus }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

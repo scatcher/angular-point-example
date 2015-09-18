@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Angular-Point-EXAMPLE v<%= version %></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+        <!-- build:css styles/vendor.css -->
+        <!-- inject-vendorcss:css -->
+        <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css">
+        <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css">
+        <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css">
+        <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css">
+        <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
+        <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.css">
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="app/styles/css/bootstrap.css">
+        <link rel="stylesheet" href="app/styles/css/formly-bootstrap.css">
+        <!-- endinject -->
+        <!-- endbuild -->
+        <!-- build:css styles/main.css -->
+        <!-- inject-projectcss:css -->
+        <link rel="stylesheet" href="app/styles/css/animate.css">
+        <link rel="stylesheet" href="app/styles/css/background-color.css">
+        <link rel="stylesheet" href="app/styles/css/bootstrap.css">
+        <link rel="stylesheet" href="app/styles/css/button.css">
+        <link rel="stylesheet" href="app/styles/css/calendar.css">
+        <link rel="stylesheet" href="app/styles/css/color-pallete.css">
+        <link rel="stylesheet" href="app/styles/css/discussion-thread.css">
+        <link rel="stylesheet" href="app/styles/css/formly-bootstrap.css">
+        <link rel="stylesheet" href="app/styles/css/ie.css">
+        <link rel="stylesheet" href="app/styles/css/label.css">
+        <link rel="stylesheet" href="app/styles/css/main.css">
+        <link rel="stylesheet" href="app/styles/css/muster.css">
+        <link rel="stylesheet" href="app/styles/css/overrides.css">
+        <link rel="stylesheet" href="app/styles/css/panel.css">
+        <link rel="stylesheet" href="app/styles/css/print.css">
+        <link rel="stylesheet" href="app/styles/css/sidebar.css">
+        <link rel="stylesheet" href="app/styles/css/text-color.css">
+        <link rel="stylesheet" href="app/styles/css/twemoji-awesome.css">
+        <link rel="stylesheet" href="app/styles/css/ui-iconpicker.css">
+        <link rel="stylesheet" href="app/styles/css/utility.css">
+        <link rel="stylesheet" href="app/styles/css/variables.css">
+        <link rel="stylesheet" href="app/styles/css/wells.css">
+        <link rel="stylesheet" href="app/styles/css/widget.css">
+        <!-- endinject -->
+        <!-- endbuild -->
+        <script>
+            /**
+             * Polyfill to prevent debugging code from throwing errors in older IE
+             */
+            (function () {
+                if (!window.console) {
+                    window.console = {};
+                }
+                // union of Chrome, FF, IE, and Safari console methods
+                var m = [
+                    "log", "info", "warn", "error", "debug", "trace", "dir", "group", "table",
+                    "groupCollapsed", "groupEnd", "time", "timeEnd", "profile", "profileEnd",
+                    "dirxml", "assert", "count", "markTimeline", "timeStamp", "clear"
+                ];
+                // define undefined methods as noops to prevent errors
+                for (var i = 0; i < m.length; i++) {
+                    if (!window.console[m[i]]) {
+                        window.console[m[i]] = function () {};
+                    }
+                }
+
+                //Hack for SPServices which assumes SharePoint JS is loaded on page
+                window.L_Menu_BaseUrl = '';
+            })();
+        </script>
+    </head>
+
+    <body ng-app="angular-point-example" id="ng-app">
+        <div ng-include="'modules/navbar/navbarView.html'"></div>
+        <!--[if lt IE 10]>
+            <p class="alert alert-danger">You are using an
+                <strong>outdated</strong>browser which this application does not support.</p>
+        <![endif]-->
+        <!-- Add your site or application content here -->
+        <div class="application-content">
+            <div ui-view>
+                <!--<div ui-view class="nga-default nga-stagger nga-slide-up">-->
+                <div class="splash">
+                    <div class="message">Angular-Point-Example Dashboard</div>
+                    <img src="images/Preloader.gif" alt="Preloader" width="128" height="128">
+                </div>
+                <div class="info-footer">Angular-Point-Example v<%=version %> built <%=buildDate %> PST</div>
+            </div>
+        </div>
+        <!-- LOCAL RESOURCES THAT ARE REPLACED WITH GOOGLE CDN LINKS AT BUILD -->
+        <!-- inject-cdnjs:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <!-- endinject -->
+        <!-- build:js scripts/vendor.js -->
+        <!-- inject-vendorjs:js -->
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/lodash/lodash.js"></script>
+        <script src="bower_components/lodash-deep/lodash-deep.js"></script>
+        <script src="bower_components/firebase/firebase.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="bower_components/angular-ui-select/dist/select.js"></script>
+        <script src="bower_components/angular-ui-date/src/date.js"></script>
+        <script src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+        <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+        <script src="bower_components/api-check/dist/api-check.js"></script>
+        <script src="bower_components/angular-formly/dist/formly.js"></script>
+        <script src="bower_components/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js"></script>
+        <script src="bower_components/ng-table/dist/ng-table.js"></script>
+        <script src="bower_components/angularfire/dist/angularfire.js"></script>
+        <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
+        <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+        <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+        <script src="bower_components/angular-google-chart/ng-google-chart.js"></script>
+        <script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+        <script src="bower_components/angular-elastic/elastic.js"></script>
+        <script src="bower_components/stacktrace-js/dist/stacktrace.js"></script>
+        <script src="bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js"></script>
+        <!-- endinject -->
+        <!-- endbuild -->
+        <!-- build:js scripts/scripts.js -->
+        <!-- inject-modules:js -->
+        <script src="bower_components/angular-point-sync/dist/angular-point-sync.js"></script>
+        <script src="bower_components/angular-point/dist/angular-point.js"></script>
+        <script src="bower_components/angular-point-offline-generator/dist/angular-point-offline-generator.js"></script>
+        <script src="bower_components/angular-point-form-control/dist/apInputControl.js"></script>
+        <script src="bower_components/angular-point-lookup-cache/dist/angular-point-lookup-cache.js"></script>
+        <script src="bower_components/angular-point-group-manager/dist/angular-point-group-manager.js"></script>
+        <script src="bower_components/angular-point-modal/dist/angular-point-modal.js"></script>
+        <script src="bower_components/angular-point-formly-templates/dist/angular-point-formly-templates.js"></script>
+        <script src="bower_components/angular-point-discussion-thread/dist/angular-point-discussion-thread.js"></script>
+        <script src="bower_components/angular-point-attachments/dist/angular-point-attachments.js"></script>
+        <!-- endinject -->
+        <!-- inject-environmentjs:js -->
+        <script src="bower_components/angular-point/test/mock/apMockBackend.mock.js"></script>
+        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+        <script src=".tmp/offlineXML/offlineXML.js"></script>
+        <script src="bower_components/chance/chance.js"></script>
+        <!-- endinject -->
+        <!-- inject-ts:js -->
+        <script src=".tmp/serve/common/app.module.js"></script>
+        <script src=".tmp/serve/common/config.js"></script>
+        <script src=".tmp/serve/common/routes.js"></script>
+        <script src=".tmp/serve/common/run.js"></script>
+        <script src=".tmp/serve/modules/about/aboutController.js"></script>
+        <script src=".tmp/serve/modules/compRequests/compRequestsController.js"></script>
+        <script src=".tmp/serve/modules/compRequests/compRequestsDialogController.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoq.routes.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqDetailsController.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqFiveStarRatingsTemplate.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqModel.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqMyNominationsDirective.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqNominateEmployeeDirective.js"></script>
+        <script src=".tmp/serve/modules/employeeOfQuarter/eoqSummaryController.js"></script>
+        <script src=".tmp/serve/modules/leave/leaveController.js"></script>
+        <script src=".tmp/serve/modules/leave/leaveDialogController.js"></script>
+        <script src=".tmp/serve/modules/main/mainController.js"></script>
+        <script src=".tmp/serve/modules/metrics/metricsController.js"></script>
+        <script src=".tmp/serve/modules/metrics/workforceAvailabilityPanel.js"></script>
+        <script src=".tmp/serve/modules/muster/musterCardDirective.js"></script>
+        <script src=".tmp/serve/modules/muster/musterController.js"></script>
+        <script src=".tmp/serve/modules/muster/musterDialogController.js"></script>
+        <script src=".tmp/serve/modules/muster/musterGaugeFactory.js"></script>
+        <script src=".tmp/serve/modules/muster/musterMetricsDirective.js"></script>
+        <script src=".tmp/serve/modules/muster/musterRowDirective.js"></script>
+        <script src=".tmp/serve/modules/muster/musterSummaryObjectFactory.js"></script>
+        <script src=".tmp/serve/modules/navbar/navbarController.js"></script>
+        <script src=".tmp/serve/modules/travel/travelController.js"></script>
+        <script src=".tmp/serve/modules/travel/travelDialogController.js"></script>
+        <script src=".tmp/serve/modules/userFeedback/userFeedbackDialogController.js"></script>
+        <script src=".tmp/serve/common/constants/moment.js"></script>
+        <script src=".tmp/serve/common/constants/twemojiAwesomeIcons.js"></script>
+        <script src=".tmp/serve/common/constants/user.js"></script>
+        <script src=".tmp/serve/common/directives/filterPanel.js"></script>
+        <script src=".tmp/serve/common/directives/modalDraggable.js"></script>
+        <script src=".tmp/serve/common/directives/myRequestsPanel.js"></script>
+        <script src=".tmp/serve/common/directives/requestsPendingCurrentUsersApproval.js"></script>
+        <script src=".tmp/serve/common/filters/userDisplayNameFilter.js"></script>
+        <script src=".tmp/serve/common/interfaces/workflowStageFactory.js"></script>
+        <script src=".tmp/serve/common/interfaces/workflowStagesService.js"></script>
+        <script src=".tmp/serve/common/models/chargeGuidanceModel.js"></script>
+        <script src=".tmp/serve/common/models/compRequestsModel.js"></script>
+        <script src=".tmp/serve/common/models/leaveModel.js"></script>
+        <script src=".tmp/serve/common/models/leaveTypesModel.js"></script>
+        <script src=".tmp/serve/common/models/logsModel.js"></script>
+        <script src=".tmp/serve/common/models/musterModel.js"></script>
+        <script src=".tmp/serve/common/models/organizationalUnitsModel.js"></script>
+        <script src=".tmp/serve/common/models/personnelModel.js"></script>
+        <script src=".tmp/serve/common/models/travelCodesModel.js"></script>
+        <script src=".tmp/serve/common/models/travelModel.js"></script>
+        <script src=".tmp/serve/common/models/userFeedbackModel.js"></script>
+        <script src=".tmp/serve/common/models/userPreferencesModel.js"></script>
+        <script src=".tmp/serve/common/services/calendarRequestService.js"></script>
+        <script src=".tmp/serve/common/services/userFilterService.js"></script>
+        <script src=".tmp/serve/modules/main/directives/chargeGuidancePanel.js"></script>
+        <script src=".tmp/serve/modules/main/directives/employeeDirectoryPanel.js"></script>
+        <!-- endinject -->
+        <!-- inject-projectjs:js -->
+
+
+        <!-- endinject -->
+        <!-- endbuild -->
+    </body>
+
+</html>

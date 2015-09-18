@@ -1,0 +1,42 @@
+<div class="panel panel-base-yellow">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-trophy"></i> My Employee of the Quarter Nominations</h3>
+	</div>
+	<table class="table" ng-if="panel.ready && panel.userHasNominated">
+		<thead>
+			<tr>
+				<th>Nominee</th>
+				<th>Quarter</th>
+				<th>FY</th>
+				<th class="hidden-sm">Modified</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="nomination in panel.myNominations.toArray() | orderBy: !nomination.modified track by nomination.id">
+				<td>
+					<a ui-sref="eoq.edit({id: nomination.id})">{{nomination.title}}</a>
+				</td>
+				<td>{{nomination.qtr}}</td>
+				<td>{{nomination.fy}}</td>
+				<td class="hidden-sm">{{nomination.modified | date:'short'}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--LOADING-->
+	<div ng-if="!panel.ready" class="no-padding">
+		<div class="alert alert-info no-margin no-border">
+			<i class="fa fa-spinner fa-pulse"></i>&nbsp;Loading panel data...
+		</div>
+	</div>
+	<!--USER HAS NOT NOMINATED ANYONE-->
+	<div ng-if="panel.ready && !panel.userHasNominated" class="no-padding">
+		<div class="alert alert-warning no-margin no-border">
+			You haven't submitted any nominations yet.
+		</div>
+	</div>
+	<!--FOOTER-->
+	<div class="panel-footer text-center">
+		<a href ui-sref="eoq.new" title="There's no time like the present, submit your nomination now!">
+			<i class="fa fa-lg fa-edit"></i>  NOMINATE A FELLOW EMPLOYEE NOW</a>
+	</div>
+</div>

@@ -1,0 +1,136 @@
+<style type="text/css">
+    /**Make the cursor a pointer for events on the calendar**/
+    div.fc-event {
+        cursor: pointer;
+    }
+</style>
+
+<div class="page-content">
+    <div class="row">
+        <div class="hidden-xs col-sm-12 col-md-8">
+
+
+            <div class="panel panel-base-blue">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa {{ vm.icon }}"></i> Angular-Point-Example {{ vm.title }}
+                        <i>{{ vm.description }}</i>&nbsp;
+
+                        <div class="panel-control">
+                            <a class="btn btn-base-blue btn-sm" href=""
+                               ng-class="{ active: vm.displayFilters }"
+                               tooltip="Toggle&nbsp;user&nbsp;filters."
+                               tooltip-placement="bottom"
+                               ng-click="vm.displayFilters = !vm.displayFilters">
+                                <i class="fa fa-filter fa-lg"></i> </a>
+                            <a class="btn btn-base-blue btn-sm" href=""
+                               tooltip="Manually&nbsp;refresh&nbsp;data."
+                               tooltip-placement="bottom"
+                               ng-click="vm.refresh()">
+                                <i class="fa fa-refresh fa-lg"></i> </a>
+                        </div>
+
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <!--=========Don't render calendar until data is fully processed============-->
+                    <div>
+                        <div class="calendar"
+                             ng-model="vm.dataCalendarConfig.sources"
+                             calendar="requestCalendar"
+                             ui-calendar="vm.dataCalendarConfig.calendar"
+                             required
+                             smart-float></div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-4">
+
+            <div ng-if="vm.displayFilters" class="nga-default nga-fade">
+                <filter-panel></filter-panel>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-12">
+
+                    <my-requests-panel title="vm.title"></my-requests-panel>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-12">
+
+                    <requests-pending-current-users-approval title="vm.title"></requests-pending-current-users-approval>
+
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-12">
+
+                    <div class="panel panel-base-blue">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="fa fa-clock-o"></i> Pending {{ vm.title }}
+                                <div class="panel-control">
+                                    <select class="form-control input-sm"
+                                            ng-model="vm.selectedGroup"
+                                            ng-options="unit.abbrev for unit in vm.organizationalUnits"
+                                            ng-change="vm.pendingRequestsTable.reload()"
+                                            title="View pending {{ vm.title.toLowerCase() }} by organizational unit">
+                                        <option>loading...</option>
+                                    </select>
+                                </div>
+
+                            </h3>
+                        </div>
+
+                        <!-- Loading Message -->
+                        <div ng-hide="vm.pendingRequestsTable.ready" class="no-padding">
+                            <div class="alert alert-info no-margin no-border"><i class="fa fa-spinner fa-spin"></i> loading...</div>
+                        </div>
+
+                        <!-- No Items to Display -->
+                        <div ng-show="vm.pendingRequestsTable.ready && !vm.foundPendingRequests" class="no-padding">
+                            <div class="alert alert-success no-margin no-border">
+                                <i class="fa fa-check-circle fa-green"></i>&nbsp;There is no pending {{
+                                vm.title.toLowerCase() }} for the selected
+                                group.
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests for Group -->
+                        <div ng-show="vm.foundPendingRequests">
+                            <div ng-include="vm.pendingRequestsPartial"></div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!--TODO Look into a better way to provide an overview of all pending requests by org -->
+                <!--<div class="col-xs-12 col-sm-6 col-md-12">-->
+                    <!--<legend>Pending by Group</legend>-->
+                    <!--<div class="row">-->
+
+                        <!--<div ng-repeat="(groupName, pendingCount) in pendingRequestSummary"-->
+                             <!--class="col-sm-4">-->
+                            <!--<div class="widget widget-state bg-color-base-blue">-->
+                                <!--<div class="state-info">-->
+                                    <!--<h4>{{groupName}} {{ pendingCount }}</h4>-->
+                                <!--</div>-->
+                                <!--<div class="state-link">-->
+                                    <!--<a href="#/projects/{{project.id}}/{{stat.route}}">View</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,123 @@
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-9">
+
+            <div class="panel panel-metro-blue with-nav-tabs no-border">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-globe fa-lg"></i> Muster Snapshot <span
+                        class="badge darken">{{vm.visibleUsers.length}}</span>
+
+
+                        <div class="panel-control">
+                            <a class="btn btn-metro-blue btn-sm" href=""
+                               ng-class="{ active: vm.displayFilters }"
+                               tooltip="Toggle&nbsp;user&nbsp;filters."
+                               tooltip-placement="bottom"
+                               ng-click="vm.toggleFilters()">
+                                <i class="fa fa-filter fa-lg"></i> </a>
+                            <a class="btn btn-metro-blue btn-sm" href=""
+                               tooltip="Manually&nbsp;refresh&nbsp;muster&nbsp;data."
+                               tooltip-placement="bottom"
+                               ng-click="vm.refresh()">
+                                <i class="fa fa-refresh fa-lg"></i> </a>
+                        </div>
+
+                        <div class="panel-control">
+                            <div class="btn-group">
+                                <a href class="btn btn-metro-blue btn-sm"
+                                   ng-class="{active: vm.userPreferences.activeMusterView === 'Tile'}"
+                                   title="Tile Mode"
+                                   ng-click="vm.updateView('Tile')">
+                                    <i class="fa fa-th fa-lg"></i> Tiles
+                                </a>
+                                <a href class="btn btn-metro-blue btn-sm"
+                                   ng-class="{active: vm.userPreferences.activeMusterView === 'List'}"
+                                   title="List Mode"
+                                   ng-click="vm.updateView('List')">
+                                    <i class="fa fa-list fa-lg" title="List Mode"></i> List
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="panel-control hidden-sm hidden-xs">
+                            <input type="text" placeholder="Filter by name..." class="form-control"
+                                   ng-model="vm.navbarFilterString" ng-model-options="{ debounce: 300 }">
+                        </div>
+
+                    </h3>
+                </div>
+
+                <!-- Loading Message -->
+                <div ng-if="!vm.scopeReady" class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> loading...
+                </div>
+
+
+                <div ng-if="vm.scopeReady">
+                    <div ng-switch="vm.userPreferences.activeMusterView">
+                        <div ng-switch-when="Tile" class="nga-default nga-stagger nga-slide-down">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div ng-repeat="musterSummary in vm.visibleMusterSummaryObjects track by musterSummary.userSid"
+                                         class="col-md-3 col-sm-4 col-xs-6">
+                                        <muster-card muster-summary="musterSummary"></muster-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="List" class="nga-default nga-stagger nga-slide-down">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>User</th>
+                                        <th></th> <!--MOOD-->
+                                        <th>Location</th>
+                                        <th>Requests</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr muster-row
+                                        ng-repeat="musterSummary in vm.visibleMusterSummaryObjects track by musterSummary.userSid"
+                                        muster-summary="musterSummary">
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-3">
+            <div ng-if="vm.displayFilters"
+                 class="nga-default nga-slide-right" style="overflow: inherit">
+                 <filter-panel></filter-panel>
+
+            </div>
+            <div ng-if="!vm.displayFilters"
+                 class="nga-default nga-slide-right" style="overflow: inherit">
+                <div class="panel panel-metro-purple no-border">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <i class="fa fa-bar-chart-o"></i> Metrics
+                        </h3>
+                    </div>
+
+                    <muster-metrics gauge-label="Angular-Point-Example"
+                        muster-summary-array="vm.musterSummaryObjects"></muster-metrics>
+
+                    <hr class="hr-sm">
+
+                    <muster-metrics gauge-label="View"
+                        muster-summary-array="vm.visibleMusterSummaryObjects"></muster-metrics>
+
+                </div>
+             </div>
+        </div>
+    </div>
+</div>

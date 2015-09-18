@@ -1,0 +1,46 @@
+<div>
+    <div google-chart chart="metrics.gauge" 
+        class="google-gauge" 
+        style="display: block; margin: 0 auto"></div>
+    
+    <hr class="hr-sm">
+    
+    <div class="muster-results-card-group">
+        <div class="muster-results-card"
+             tooltip="{{ metrics.accountedFor }} users are mustered or otherwise accounted for">
+            <div class="muster-results-icon">
+                <i class="fa fa-users fa-lg"></i>
+            </div>
+            <div class="muster-results-text">{{ metrics.accountedFor }}
+            </div>
+        </div>
+        <div class="muster-results-card"
+             tooltip="{{ metrics.present }} users have mustered">
+            <div class="muster-results-icon">
+                <i class="fa fa-building-o fa-lg"></i>
+            </div>
+            <div class="muster-results-text">
+                {{ metrics.present }}
+            </div>
+        </div>
+        <div class="muster-results-card"
+             tooltip="{{ metrics.onLeave }} users are on leave">
+            <div class="muster-results-icon">
+                <i class="fa fa-suitcase fa-lg"></i>
+            </div>
+            <div class="muster-results-text">
+                {{ metrics.onLeave }}
+            </div>
+        </div>
+        <div class="muster-results-card"
+             tooltip="{{ metrics.onTravel }} users are on travel">
+            <div class="muster-results-icon">
+                <i class="fa fa-plane fa-lg"></i>
+            </div>
+            <div class="muster-results-text">
+                {{ metrics.onTravel }}
+            </div>
+        </div>
+    </div>
+    
+</div>

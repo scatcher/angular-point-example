@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+bower_components
+
+# Build
+.tmp
+coverage
+report
+
+# Styles CSS gets built all the time so just store the LESS
+app/styles/css
+
+# IDE
+.idea
+.settings
+.vscode
+
+# Info we don't want stored on GitHub
+xml-cache
+test/mocks/offlineXML.js
+.DS_Store
+Thumbs.DB
+
+npm-debug.log

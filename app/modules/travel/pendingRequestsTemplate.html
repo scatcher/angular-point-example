@@ -1,0 +1,13 @@
+<table ng-table="vm.pendingRequestsTable" template-pagination="common/templates/panel_sm_pager.html" class="table table-striped">
+    <tr ng-repeat="request in $data">
+        <td data-title="'Name'">
+            <a href=""
+                class="pointer"
+                ng-click="vm.openModal(request)"
+                title="Click to view">{{ request.requestedFor.lookupId | userDisplayNameFilter }}</a>
+        </td>
+        <td data-title="'Dates'">
+            {{ request.travelStartDate | date:'shortDate' }} - {{ request.travelEndDate | date:'shortDate' }}
+        </td>
+    </tr>
+</table>

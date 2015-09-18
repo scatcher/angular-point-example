@@ -1,0 +1,97 @@
+<style type="text/css">
+    .imagebak {
+        background-image: url('images/esedlogo2.png');
+        background-position: top;
+        background-repeat: no-repeat;
+    }
+
+    .hometext {
+        font-size: 10pt;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #666666;
+        line-height: 1.3;
+    }
+    .jumbotron {
+        margin-bottom: 0;
+    }
+</style>
+
+<div class="jumbotron imagebak">
+    <!--<h1>About Angular-Point-Example</h1>-->
+</div>
+
+<div class="page-content">
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">What is 1App?</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 hometext">
+                            <p>1App is a 'single-page application' (SPA). That is the term for a web application or web site
+                                that fits on a single web page. The goal is to provide a more fluid user experience akin
+                                to a desktop application.
+                            </p>
+
+                            <p>Traditional web applications often work slowly, and require the page to refresh regularly to
+                                update information, especially if the information comes from a database. Many new technologies
+                                for web applications are now available, however, that change the traditional method of creating
+                                web-based applications. Angular-Point-Example has embraced the use of these cutting-edge
+                                technologies to provide you with a rich, responsive, and fast user interface.
+                            </p>
+
+                            <p>In the future, many of what we now think of as desktop applications will be moved to web-based
+                                formats, much as Google has done with word processing and spreadsheet applications. This
+                                will free users from dependence on a particular operating system or type of computer. Desktops,
+                                laptops, tablets, and phones will all be able to run these SPAs, and the functionality will
+                                be the same, no matter what platform you use. This will open an entirely new era in which
+                                we will think about software in an entirely different way&mdash;and won't have to think about
+                                the platform that runs it.</p>
+
+                            <p>Think of 1App as your first step into this new era.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-6">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Version Info</h3>
+                </div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Build Date:</strong> {{vm.buildDate | date: 'short'}}</li>
+                        <li class="list-group-item"><strong>Build Version:</strong> {{ vm.buildNumber }}</li>
+                    </ul>
+            </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Useful Info</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12  hometext">
+                            <p><strong>How to use 1App</strong></p>
+
+                            <p>At the top right of your screen, there is a clickable drop-down menu, labeled "Apps". Use this
+                                menu to select the portion of 1App you wish to use.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</div>

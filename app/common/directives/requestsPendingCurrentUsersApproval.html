@@ -1,0 +1,11 @@
+<div class="panel panel-{{panel.color}} nga-default nga-stagger nga-fade" ng-if="panel.pendingRequests" title="{{panel.title}} Awaiting My Approval">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i class="fa {{panel.icon}}"></i> {{panel.title}} Awaiting My Approval <span class="badge">{{ panel.requestsPendingCurrentUsersApproval.length }}</span>
+		</h3>
+	</div>
+
+	<!-- Pending Requests for Group -->
+	<div ng-include="panel.template"></div>
+
+</div>

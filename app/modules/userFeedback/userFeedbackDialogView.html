@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <button type="button" class="close" title="Close this request" ng-click="vm.cancel()" aria-hidden="true">
+        <i class="fa fa-times"/>
+    </button>
+    <h4 class="modal-title">Feedback</h4>
+    <i>From 1App URL: {{ vm.userFeedback.topic }}</i>
+</div>
+<div class="modal-body">
+    <form role="form" class="form">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>Enter your suggestion or issue below. Please provide a detailed explanation including all
+                        relevant information pertaining to your suggestion or issue. If you are reporting an issue,
+                        please include steps to be followed to reproduce the problem, if possible.</p><br/>
+                    <label>Issue/Suggestion</label>
+                    <input type="text" class="form-control" ng-model="vm.userFeedback.title"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label>Description</label>
+                    <textarea rows="4"
+                              cols="50"
+                              class="form-control"
+                              ng-model="vm.userFeedback.description"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="vm.save()" ng-disabled="vm.userFeedback.title.length === 0 || vm.negotiatingWithServer">OK</button>
+    <button class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+</div>

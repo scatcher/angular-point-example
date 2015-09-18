@@ -1,0 +1,274 @@
+<style type="text/css">
+    .modal-dialog {
+        width: 80%;
+        padding: 0;
+    }
+
+    .modal-content {
+        border-radius: 0;
+    }
+</style>
+
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="vm.cancel()" aria-hidden="true">
+        <i class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title">Travel Request
+        <span ng-show="vm.travelRequest.requestStatus === 'Pending'" class="label label-primary">Pending</span>
+        <span ng-show="vm.travelRequest.requestStatus === 'Approved'" class="label label-success">Approved</span>
+        <span ng-show="vm.travelRequest.requestStatus === 'Rejected'" class="label label-danger">Rejected</span>
+
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="alert alert-info text-center" ng-hide="vm.dataReady">
+        loading form data...
+    </div>
+    <div ng-form name="modalform">
+
+        <!--========================Hidden Admin Tools==================================-->
+        <div class="well well-sm" ng-if="vm.toggleAdminMode">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="btn-group">
+                        <button class="btn btn-purple {{ vm.approvalMode ? 'active' : '' }}"
+                                ng-click="vm.approvalMode = !vm.approvalMode">Approval Mode
+                        </button>
+                        <button class="btn btn-purple {{ vm.canDelete ? 'active' : '' }}"
+                                ng-click="vm.canDelete = !vm.canDelete">Enable Delete
+                        </button>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-purple " ng-model="vm.displayMode"
+                                btn-radio="'View'">Display
+                        </button>
+                        <button type="button" class="btn btn-purple" ng-model="vm.displayMode"
+                                btn-radio="'New'">New
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--========================End Admin Tools==================================-->
+
+        <ul class="nav nav-tabs">
+            <li ng-class="{active: vm.activeTab === 'Main'}">
+                <a href ng-click="vm.activeTab = 'Main'">Main</a>
+            </li>
+            <li ng-class="{active: vm.activeTab === 'Attachments'}">
+                <a href ng-click="vm.activeTab = 'Attachments'">Attachments
+                    <span class="badge" ng-show="vm.travelRequest.attachments.length > 0">{{ vm.travelRequest.attachments.length }}</span>
+                </a>
+            </li>
+        </ul>
+
+        <div ng-if="vm.activeTab === 'Main'">
+            <br/>
+            <fieldset ng-disabled="vm.displayMode !== 'New'">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <label>Requester</label>
+                            <select data-ng-model="vm.travelRequest.requestedFor"
+                                    class="form-control"
+                                    ng-options="(person.lookupId | userDisplayNameFilter) for person in vm.userLookupOptionsBySid | orderBy:'lookupValue' track by person.lookupId" required></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-group" title="Typically your manager">
+                            <label>Requested Approver</label>
+                            <select data-ng-model="vm.travelRequest.requestSubmittedTo"
+                                    class="form-control"
+                                    ng-options="(person.lookupId | userDisplayNameFilter) for person in vm.userLookupOptionsBySid | orderBy:'lookupValue' track by person.lookupId" required></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <label>Start Date</label>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <input ui-date class="form-control"
+                                           ng-model="vm.travelRequest.travelStartDate"
+                                           ng-change="vm.dateHelper(vm.travelRequest)" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-group">
+                            <label>End Date</label>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <input ui-date class="form-control"
+                                           ng-model="vm.travelRequest.travelEndDate"
+                                           ng-change="vm.dateHelper(vm.travelRequest)" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>Purpose</label>
+                            <textarea class="form-control" ng-model="vm.travelRequest.purpose" msd-elastic></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>Travel Code</label>
+                            <select ng-model="vm.travelRequest.travelCode"
+                                    ng-options="{lookupId: travelCode.id, lookupValue: travelCode.title} as travelCode.title for travelCode in vm.travelCodes | orderBy:'title' track by travelCode.lookupId || travelCode.id"
+                                    class="form-control"></select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="vm.travelRequest.location">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>NWA</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="vm.travelRequest.chargeNumber">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Mode of Travel</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="vm.travelRequest.modeOfTravel">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Contact Phone</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="vm.travelRequest.contactPhone">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Accomodations</label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="vm.travelRequest.accomodations">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>ORM Attached?</label>
+                            <button class="btn btn-link"
+                                    ng-disabled="vm.displayMode !== 'New'"
+                                    ng-click="vm.travelRequest.ormAttached = !vm.travelRequest.ormAttached">
+                                <i class="fa {{ vm.travelRequest.ormAttached ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>Automobile Rental?</label>
+                            <button class="btn btn-link"
+                                    ng-disabled="vm.displayMode !== 'New'"
+                                    ng-click="vm.travelRequest.automobileRental = !vm.travelRequest.automobileRental">
+                                <i class="fa {{ vm.travelRequest.automobileRental ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-if="vm.travelRequest.automobileRental">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>Additional Travelers</label>
+                            <textarea class="form-control" ng-model="vm.travelRequest.additionalTravelers" msd-elastic></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>Remarks</label>
+                            <textarea class="form-control" ng-model="vm.travelRequest.remarks" msd-elastic></textarea>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row" ng-if="vm.approvalMode || vm.travelRequest.approvalRemarks.length > 0">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Approval Remarks</label>
+                        <textarea class="form-control" msd-elastic ng-disabled="!vm.approvalMode"
+                                  ng-model="vm.travelRequest.approvalRemarks"></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-if="vm.activeTab === 'Attachments'" class="tab-content">
+            <br/>
+            <div ng-if="vm.displayMode !== 'New'">
+                <div class="form-group">
+                    <label>Attachments</label>
+                    <ap-attachments list-item="vm.travelRequest"></ap-attachments>
+                </div>
+            </div>
+            <div ng-if="vm.displayMode === 'New'">
+                <div class="alert alert-info">You will need to create this request first. After initial submission,
+                    you will be able to open the request and attach any additional documentation.
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="vm.travelRequest.approvalDate">
+            <div class="col-xs-12">
+                <span class="pull-left help-block">Approval Date: {{ vm.travelRequest.approvalDate | date:'short'}}</span>
+                <span class="pull-right help-block">Approved By: {{ vm.travelRequest.approvedBy.lookupId | userDisplayNameFilter }}</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger pull-left" ng-click="vm.deleteListItem()" title="Delete this request"
+            ng-if="vm.canDelete" ng-disabled="vm.negotiatingWithServer"><i class="fa fa-trash-o"></i>
+    </button>
+    <button class="btn btn-grey pull-left" ng-click="vm.toggleAdminMode = !vm.toggleAdminMode"
+            ng-if="vm.fullControl" title="Toggle Admin Tools"><i class="fa fa-unlock-alt"></i></button>
+    <button class="btn btn-success" ng-click="vm.approve(vm.travelRequest)" title="Approve the request"
+            ng-if="vm.approvalMode" ng-disabled="vm.negotiatingWithServer"><i
+        class="fa fa-thumbs-o-up"></i> Approve
+    </button>
+    <button class="btn btn-danger" ng-click="vm.reject(vm.travelRequest)" title="Reject the request"
+            ng-if="vm.approvalMode" ng-disabled="vm.negotiatingWithServer"><i
+        class="fa fa-thumbs-o-down"></i> Reject
+    </button>
+    <button class="btn btn-primary" ng-click="vm.saveRequest(vm.travelRequest)"
+            ng-disabled="vm.travelRequest.hours  <= 0 || vm.negotiatingWithServer"
+            ng-if="vm.displayMode === 'New'">OK
+    </button>
+    <button class="btn btn-default" ng-click="vm.cancel()" title="Close this window and cancel any changes">
+        Cancel
+    </button>
+</div>

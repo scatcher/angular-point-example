@@ -1,0 +1,143 @@
+// Add anything custom here -- mixins, variable overrides.
+// by adding things here instead of overriding existing .LESS files, it makes merging changes on product updates easier
+@import "variables.less";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.nav-logo {
+    padding-left: 12px;
+    padding-top: 5px;
+    padding-right: 12px
+}
+
+//[ Application loader and main body ]
+.application-content {
+    margin-top: @navbar-height + 10;
+}
+
+.splash {
+    text-align: center;
+    margin: 10% 0 0 0;
+    .message {
+        font-size: 5em;
+        line-height: 1.5em;
+        -webkit-text-shadow: rgba(0, 0, 0, 0.5) 0px 0px 15px;
+        text-shadow: rgba(0, 0, 0, 0.5) 0px 0px 15px;
+        text-transform: uppercase;
+    }
+    .icon-spinner {
+        text-align: center;
+        display: inline-block;
+        font-size: 5em;
+        margin-top: 50px;
+    }
+}
+
+/** Initial build info appearing during initial load */
+.info-footer{
+    text-align: center;
+    color:grey;
+    bottom:0;
+    position: fixed;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+/** Let Read-Only form control elements expand to show all content */
+div.form-control{
+    height:auto;
+    min-height: 34px;
+}
+
+
+/** HIGHLIGHT BACKGROUND FOR MATCHING TEXT */
+.ui-match {
+    background: yellow;
+}
+
+.loader {
+    margin: 6px 8px 4px 8px;
+    visibility: hidden;
+    & .active {
+        visibility: visible;
+    }
+}
+
+.page-content {
+    margin: 0;
+    padding: 8px;
+}
+
+BODY {
+    //  overflow:inherit;
+    //  height:auto;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #eee;
+    color: #543729;
+}
+
+/*------------------------------------------------------------------
+[ Bootstrap Additions ]
+*/
+.list-group-item-sm {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.hr-sm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.dropdown-menu-right li a {
+    display: block;
+    /*float: left;*/
+    text-align: left;
+}
+
+/*------------------------------------------------------------------
+[ Print ]
+*/
+@media print {
+    .application-content {
+        margin-top: 0;
+    }
+
+    .btn, .toast-container, .no-print {
+        display: none;
+    }
+
+    .well {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .panel {
+        border: 0;
+    }
+
+    .panel-heading {
+        font-weight: bold;
+    }
+
+    .list-group-item {
+        border: 0;
+    }
+
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    body {
+        font-size: 12px;
+    }
+
+    .list-group-item-sm {
+        padding-bottom: 5px;
+        font-size: 85%;
+    }
+}

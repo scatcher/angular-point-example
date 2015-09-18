@@ -1,0 +1,33 @@
+<div class="panel panel-{{panel.color}}" title="My Submitted {{ panel.title }}">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i class="fa {{panel.icon}}"></i> My {{ panel.title }}
+			<div class="panel-control">
+				<a ng-click="panel.openModal()"
+					class="btn btn-{{panel.color}} btn-sm"
+					tooltip="Create&nbsp;a&nbsp;new&nbsp;{{ panel.title.toLowerCase() }}&nbsp;request"
+					tooltip-placement="left">
+					<i class="fa fa-plus"></i> New
+				</a>
+			</div>
+		</h3>
+	</div>
+
+	<!-- Loading Message -->
+	<div ng-hide="panel.ready" class="no-padding">
+		<div class="alert alert-info no-margin no-border"><i class="fa fa-spinner fa-spin"></i> loading...</div>
+	</div>
+
+	<!-- No Items to Display -->
+	<div ng-show="panel.ready && !panel.userHasRequests">
+		<div class="alert alert-success no-margin no-border">
+			<i class="fa fa-check-circle fa-green"></i>&nbsp;You have no {{ panel.title.toLowerCase() }} in the current calendar.
+		</div>
+	</div>
+
+	<!-- My Requests -->
+	<div ng-show="panel.userHasRequests">
+		<div ng-include="panel.template"></div>
+	</div>
+
+</div>
