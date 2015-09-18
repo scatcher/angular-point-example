@@ -111,11 +111,25 @@ To see your code in the browser using gulp
 
     gulp serve
     
+The offline environment will intercept all outgoing calls to SharePoint and depending if you have cached xml files
+available will return cached server responses or dynamically generated mock server responses.  All application 
+interactions while in this environment will persist until the browser is reloaded.  
+
+All project script/style files in the main app folder will automatically get injected into the build blocks contained
+in the app/index.html file so there is no need to manually create script/style references.  Any changes made to the 
+code will cause any necessary compilers (TypeScript/LESS) to run and the browser will automatically refresh.
+ 
+    
 Prepare code for SharePoint
 ---------
 Gulp will concat and minify our code.  The output of this process is put into the /dist folder.
 
     gulp deploy
+    
+    
+We combine all of the script references into concatenated files and inject a reference to the new scipt files in the
+dist/index.html file.  All html is added to the Angular template cache and added to the dist/app.js so no server side
+requests for templates is required and the application will appear much more responsive.
 
 
 Update our dependencies
