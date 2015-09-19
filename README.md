@@ -46,7 +46,18 @@ Cloning the Repository
 ---------
 Navigate to the local folder on your computer where the project code will reside and clone the repo using terminal/cmd:
 
-    git clone https://github.com/scatcher/angular-point-example.git
+````cmd
+git clone https://github.com/scatcher/angular-point-example.git
+cd angular-point-example
+````
+`Note: If installing on Windows, don't clone somewhere deep in the file system because of path link limit of 260 characters.`
+
+**Good**
+C:\dev> git clone https://github.com/scatcher/angular-point-example.git
+
+**Bad**
+C:\my deep folder\another_folder\even_deeper> git clone https://github.com/scatcher/angular-point-example.git
+
 
 Installing Dependencies
 ---------
@@ -94,12 +105,13 @@ At this point it's time to define our named queries using the
 [model.registerQuery](http://scatcher.github.io/angular-point/#/api/Model.registerQuery) method on the instantiated
 model.  Once registered, you'll be able to execute this query from anywhere in the application using 
 
-    musterModel.executeQuery('MY-QUERY-NAME')
-        .then((musterListItems: ap.IndexedCache<Muster>) => {
-            //I now have my cached muster records
-            
-        });
+````typescript
+musterModel.executeQuery('MY-QUERY-NAME')
+    .then((musterListItems: ap.IndexedCache<Muster>) => {
+        //I now have my cached muster records
         
+    });
+````        
 Additional info on the model.executeQuery method can be found [here](http://scatcher.github.io/angular-point/#/api/Model.executeQuery).
 
 At this point the data source is ready to be used within the application.
@@ -149,13 +161,9 @@ Run a single unit test
 
     gulp test
        
-or run continuous tests whenever a file is changed
-
-    gulp autotest
-    
 or to debug a test
 
-    gulp debugtest
+    gulp debug:test
     
       
 Code Style
